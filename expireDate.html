@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expiry Date</title>
+    <link rel="stylesheet" href="style.css">
+<style>
+.body
+{
+    font-family: Arial, sans-serif;
+    background-color: white;
+    padding: 2rem;
+}
+.module-banner {
+  background: linear-gradient(to right, #3b82f6, #6366f1); /* Blue gradient */
+  color: white;
+  text-align: center;
+  padding: 20px 0;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.module-banner h1 {
+  margin: 0;
+  font-size: 1.8rem;
+}
+.expiry-module {
+  padding: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  /* border: 2px solid black; */
+  border-radius: 12px;
+  background-color: white;
+  max-width: 500px;
+  height: 400px;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  justify-content: center;
+  margin-top: 150px;
+  margin-left: 400px;
+}
+
+.expiry-module h2 {
+  margin-top: 0;
+  color: #333;
+}
+
+#status {
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.warning {
+  color: #e67e22;
+}
+
+.expired {
+  color: #c0392b;
+}
+
+.active {
+  color:green;
+}
+.renew-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #000B58;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .renew-button:hover {
+            background-color: #2A004E;
+        }
+
+</style>
+</head>
+<body>
+  <div class="module-banner">
+    <h1>Subscription Expiry</h1>
+  </div>
+    <div class="expiry-module">
+        <!-- <h1>Subscription Expiry</h1> -->
+        <p id="expiry-date"><strong>Expiry Date:</strong> <span>2026-04-30</span></p>
+        <p id="countdown"><strong>Time Remaining:</strong> <span></span></p>
+        <p id="status"></p>
+        <h3>Plan Details</h3>
+        <p><strong>Plan:</strong> Premium</p>
+        <p><strong>Features:</strong> Unlimited Market access, Priority support, Real time data</p>
+
+        <button class="renew-button" onclick="alert('Renewal process coming soon!')">Renew Now</button>
+
+    </div> 
+<script class="script.js">
+  document.addEventListener("DOMContentLoaded", function () {
+  const expirySpan = document.querySelector("#expiry-date span");
+  const countdownSpan = document.querySelector("#countdown span");
+  const status = document.getElementById("status");
+
+  const expiryDate = new Date(expirySpan.textContent);
+  const now = new Date();
+
+  const timeDiff = expiryDate - now;
+
+  if (timeDiff <= 0) {
+    countdownSpan.textContent = "Expired";
+    status.textContent = "Your subscription has expired!";
+    status.className = "expired";
+  } else {
+    const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+    countdownSpan.textContent = `${days} day(s) left`;
+
+    if (days <= 5) {
+      status.textContent = "Your subscription is about to expire!";
+      status.className = "warning";
+    } else {
+      status.textContent = "Your subscription is active.";
+      status.className = "active";
+   }
+  }
+});
+</script>
+</body>
+</html>
