@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Add New Indicator</title>
+  <style>
+    body { font-family: Arial; background: #eee; }
+    .container { width: 450px; margin: 20px auto; padding: 20px; background: white; border-radius: 10px; }
+    .form-control {margin-left:10px; margin-bottom: 15px; width: 90%; padding: 10px; border-radius: 5px;}
+    table { width: 90%; margin: 20px auto; border-collapse: collapse; background: #fff; }
+    th, td { padding: 10px; border: 1px solid #ccc; text-align: center; }
+    th { background: navy; color: white; }
+    button { padding: 5px 10px; margin: 2px; background: green; color: white;}
+    .btn-view { background: blue; color: white; }
+    .btn-delete { background: red; color: white; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <center><h1>Add New Indicator</h1></center>
+  <input class="form-control" type="text" id="name" placeholder="Indicator Name" maxlength="15" />
+  <input class="form-control" type="date" id="startDate" />
+  <input class="form-control" type="text" id="tradingId" placeholder="Trading View ID (TV-12345)" />
+  <input class="form-control" type="text" id="referralId" placeholder="Referral ID (REF-56789)" />
+  <select class="form-control" id="plan">
+    <option value="">Select Plan</option>
+    <option value="Basic">Basic</option>
+    <option value="Pro">Pro</option>
+  </select>
+  <input class="form-control" type="date" id="expiryDate" />
+  <input class="form-control" type="number" id="remainingDays" placeholder="Remaining Days" min="1" />
+  <center><button onclick="addEntry()">Save</button></center>
+</div>
+
+<table id="indicatorTable">
+  <thead>
+    <tr>
+      <th>Sl. No</th>
+      <th>Indicator Name</th>
+      <th>Date</th>
+      <th>Trading View ID</th>
+      <th>Referral ID</th>
+      <th>Plan</th>
+      <th>Expiry Date</th>
+      <th>Remaining Days</th>
+      <th>Check</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<script>
+  let count = 0;
+
+  window.onload = () => {
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById("startDate").setAttribute("min", today);
+    document.getElementById("startDate").value = today;
+  };
+
+  function calculateRemainingDays(start, end) {
+    const startDate = new Date(start);
+    const endDate = new Date(end);
+    const diffTime = endDate - startDate;
+    return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  }
+
+  function addEntry() {
+    const name = document.getElementById("name").value.trim();
+    const startDate = document.getElementById("startDate").value;
+    const tradingId = document.getElementById("tradingId").value.trim();
+    const referralId = document.getElementById("referralId").value.trim();
+    const plan = document.getElementById("plan").value;
+    const expiryDate = document.getElementById("expiryDate").value;
+
+    const nameRegex = /^[A-Za-z ]{1,15}$/;
+    const tradingRegex = /^TV-\d+$/;
+    const referralRegex = /^REF-\d+$/;
+
+    if (!nameRegex.test(name)) {
+      alert("Name should contain only letters (max 15 characters).");
+      return;
+    }
+
+    if (!tradingRegex.test(tradingId)) {
+      alert("Trading View ID must be in the format TV-12345.");
+      return;
+    }
+
+    if (!referralRegex.test(referralId)) {
+      alert("Referral ID must be in the format REF-56789.");
+      return;
+    }
+
+    if (!plan) {
+      alert("Please select a plan.");
+      return;
+    }
+
+    const today = new Date().toISOString().split('T')[0];
+    if (startDate < today) {
+      alert("Start date cannot be in the past.");
+      return;
+    }
+
+    if (expiryDate <= startDate) {
+      alert("Expiry date must be after the start date.");
+      return;
+    }
+
+    const remaining = document.getElementById("remainingDays").value.trim();
+      if (!remaining || isNaN(remaining) || remaining <= 0) {
+      alert("Please enter a valid number of remaining days.");
+     return;
+    }
+
+
+    count++;
+
+    const table = document.getElementById("indicatorTable").getElementsByTagName('tbody')[0];
+    const row = table.insertRow();
+
+    row.innerHTML = `
+      <td>${count}</td>
+      <td>${name}</td>
+      <td>${startDate}</td>
+      <td>${tradingId}</td>
+      <td>${referralId}</td>
+      <td>${plan}</td>
+      <td>${expiryDate}</td>
+      <td>${remaining}</td>
+      <td>
+        <button class="btn-view" onclick="viewRow(this)">View</button>
+        <button class="btn-delete" onclick="deleteRow(this)">Delete</button>
+      </td>
+    `;
+
+    clearForm();
+  }
+
+  function clearForm() {
+    document.getElementById("name").value = "";
+    document.getElementById("tradingId").value = "";
+    document.getElementById("referralId").value = "";
+    document.getElementById("plan").value = "";
+    document.getElementById("expiryDate").value = "";
+    document.getElementById("remainingDays").value = "";
+
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById("startDate").value = today;
+  }
+
+  function deleteRow(btn) {
+    const row = btn.parentNode.parentNode;
+    row.parentNode.removeChild(row);
+  }
+
+  function viewRow(btn) {
+    const row = btn.parentNode.parentNode;
+    const cells = row.querySelectorAll("td");
+    alert(`Viewing Record:\nName: ${cells[1].innerText}\nTV ID: ${cells[3].innerText}\nReferral ID: ${cells[4].innerText}`);
+  }
+</script>
+
+</body>
+</html>
