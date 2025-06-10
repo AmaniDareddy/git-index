@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=search"/>
+    <link rel="stylesheet" href="dailyList.css">
+</head>
+<body>
+    <div class="table-section">
+        <header>
+            <h1>Daily List</h1>
+        </header>
+        <form>
+            <div class="search">
+                <input type="search"  type="text" onkeyup="searchTable()" class="search-input" placeholder="Search..">
+                <span class="material-symbols-outlined">search</span>
+            </div>
+            <button class="add"><a href="indicator.html">Add New</a></button>
+        </form>
+        
+        <table>
+            <thead>
+            <tr>
+                <th>Sl. No</th>
+                <th>Indicator Name</th>
+                <th>Date</th>
+                <th>Trading View ID</th>
+                <th>Referral ID</th>
+                <th>Plan</th>
+                <th>Expiry Date</th>
+                <th>Remaining Days</th>
+                <th>Check</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>1</td>
+                <td>Amani</td>
+                <td>2025-03-17</td>
+                <td>TV-12345</td>
+                <td>REF-56789</td>
+                <td>Basic</td>
+                <td>2025-04-01</td>
+                <td>15</td>
+                <td>
+                    <button class="btn view-btn" onclick="viewDetails(this)">View</button>
+                    <button class="btn delete-btn" onclick="confirmDelete(this)">Delete</button>
+                </td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Keerthi</td>
+                <td>2025-03-14</td>
+                <td>TV-22345</td>
+                <td>REF-26789</td>
+                <td>Basic</td>
+                <td>2025-04-14</td>
+                <td>25</td>
+                <td>
+                    <button class="btn view-btn" onclick="viewDetails(this)">View</button>
+                    <button class="btn delete-btn" onclick="confirmDelete(this)">Delete</button>
+                </td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Smitha</td>
+                <td>2025-03-14</td>
+                <td>TV-22345</td>
+                <td>REF-26789</td>
+                <td>Basic</td>
+                <td>2025-04-14</td>
+                <td>25</td>
+                <td>
+                    <button class="btn view-btn" onclick="viewDetails(this)">View</button>
+                    <button class="btn delete-btn" onclick="confirmDelete(this)">Delete</button>
+                </td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>Swapna</td>
+                <td>2025-03-14</td>
+                <td>TV-22345</td>
+                <td>REF-26789</td>
+                <td>Basic</td>
+                <td>2025-04-14</td>
+                <td>25</td>
+                <td>
+                    <button class="btn view-btn" onclick="viewDetails(this)">View</button>
+                    <button class="btn delete-btn" onclick="confirmDelete(this)">Delete</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- Delete Confirmation -->
+    <div id="confirmBox" class="confirm-container">
+        <div class="confirm-content">
+           <p>Are you sure you want to delete?</p>
+           <button onclick="deleteItem()">Yes</button>
+           <button onclick="closeConfirm()">No</button>
+        </div>
+     </div>
+<script>
+    // Function to calculate remaining days
+function updateRemainingDays() {
+    const rows = document.querySelectorAll("tbody tr");
+    const today = new Date();
+
+    rows.forEach(row => {
+        const expiryDateText = row.cells[6].textContent.trim(); // Expiry Date column
+        const expiryDate = new Date(expiryDateText);
+        const diffTime = expiryDate - today;
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+        row.cells[7].textContent = isNaN(diffDays) ? "Invalid" : diffDays; // Remaining Days column
+    });
+}
+
+// Delete confirmation and row deletion
+function confirmDelete(button) {
+    if (confirm("Are you sure you want to delete?")) {
+        const row = button.closest("tr");
+        row.remove();
+        updateSerialNumbers();
+    }
+}
+
+// Update serial numbers after delete
+function updateSerialNumbers() {
+    const rows = document.querySelectorAll("tbody tr");
+    rows.forEach((row, index) => {
+        row.cells[0].textContent = index + 1;
+    });
+}
+        function viewDetails(button) {
+            let row = button.parentElement.parentElement;
+            let indicatorName = row.cells[1].innerText;
+            let date = row.cells[2].innerText;
+            let tradingViewID = row.cells[3].innerText;
+            let referralID = row.cells[4].innerText;
+            let plan = row.cells[5].innerText;
+            let expiryDate = row.cells[6].innerText;
+            let remainingDays = row.cells[7].innerText;
+
+            alert(
+                "Indicator Details:\n" +
+                "Name: " + indicatorName + "\n" +
+                "Date: " + date + "\n" +
+                "Trading View ID: " + tradingViewID + "\n" +
+                "Referral ID: " + referralID + "\n" +
+                "Plan: " + plan + "\n" +
+                "Expiry Date: " + expiryDate + "\n" +
+                "Remaining Days: " + remainingDays
+            );
+        }
+
+const searchInput = document.querySelector("input");
+searchInput.addEventListener("keyup", function () {
+  const filter = searchInput.value.toLowerCase();
+  const rows = document.querySelectorAll("table tbody tr");
+
+  rows.forEach(row => {
+    const text = row.textContent.toLowerCase();
+    row.style.display = text.includes(filter) ? "" : "none";
+  });
+});
+</script>
+</body>
+</html>
