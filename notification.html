@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Subscription Notifications</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f9f9f9;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 12px;
+      text-align: center;
+    }
+
+    th {
+      background-color: #f0f0f0;
+    }
+
+    .status-active {
+      color: white;
+      background-color: green;
+      padding: 5px 10px;
+      border-radius: 5px;
+    }
+
+    .status-expired {
+      color: white;
+      background-color: red;
+      padding: 5px 10px;
+      border-radius: 5px;
+    }
+
+    .button {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
+    .button:hover {
+      background-color: #0056b3;
+    }
+
+    /* Modal styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.5);
+    }
+
+    .modal-content {
+      background-color: #fff;
+      margin: 10% auto;
+      padding: 20px;
+      border-radius: 10px;
+      width: 400px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      text-align: center;
+    }
+
+    #notificationText {
+      width: 100%;
+      height: 100px;
+      padding: 10px;
+      margin-top: 10px;
+      resize: none;
+    }
+
+    #errorText {
+      color: red;
+      display: none;
+      margin-top: 10px;
+    }
+
+    .modal-buttons {
+      margin-top: 15px;
+    }
+
+    .modal-buttons button {
+      margin: 0 10px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Subscription Dashboard</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>John Doe</td>
+      <td><span class="status-active">Active</span></td>
+    </tr>
+    <tr>
+      <td>Jane Smith</td>
+      <td><span class="status-expired">Expired</span></td>
+    </tr>
+    <tr>
+      <td>Mahesh</td>
+      <td><span class="status-active">Active</span></td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Send Notifications Button -->
+<button class="button" onclick="openNotificationModal()">Send Notifications</button>
+
+<!-- Modal -->
+<div id="notificationModal" class="modal">
+  <div class="modal-content">
+    <h2>Send Notification</h2>
+    <textarea id="notificationText" placeholder="Enter your message..."></textarea>
+    <p id="errorText">Please enter a message!</p>
+    <div class="modal-buttons">
+      <button class="button" onclick="sendNotification()">Send Now</button>
+      <button class="button" onclick="closeNotificationModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  function openNotificationModal() {
+    const rows = document.querySelectorAll("table tbody tr");
+    let hasExpired = false;
+
+    rows.forEach(row => {
+      if (row.innerHTML.includes("Expired")) {
+        hasExpired = true;
+      }
+    });
+
+    if (hasExpired) {
+      document.getElementById("notificationModal").style.display = "block";
+    } else {
+      alert("No expired subscriptions to notify.");
+    }
+  }
+
+  function closeNotificationModal() {
+    document.getElementById("notificationModal").style.display = "none";
+    document.getElementById("notificationText").value = "";
+    document.getElementById("errorText").style.display = "none";
+  }
+
+  function sendNotification() {
+    const text = document.getElementById("notificationText").value.trim();
+    const errorText = document.getElementById("errorText");
+
+    if (text === "") {
+      errorText.style.display = "block";
+      return;
+    }
+
+    errorText.style.display = "none";
+
+    // Simulate sending notification (e.g., API call)
+    alert("Notification Sent:\n\n" + text);
+
+    // Reset and close
+    closeNotificationModal();
+  }
+</script>
+
+</body>
+</html>
