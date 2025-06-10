@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Monthly Commission</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+  
+  body {
+    font-family: Arial, sans-serif;
+    background: white;
+    margin: 0;
+    /* padding: 40px; */
+    /* display: flex; */
+    justify-content: center;
+    /* margin-top: 30px; */
+  }
+  .module-banner {
+  background: linear-gradient(to right, #3b82f6, #6366f1); /* Blue gradient */
+  color: white;
+  text-align: center;
+  padding: 20px 0;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.module-banner h1 {
+  margin: 0;
+  font-size: 1.8rem;
+}
+/* 1. Ensure the whole center area has some breathing room */
+.commission-main {
+  padding: 24px;
+  max-width: 1200px;      /* keeps lines from getting too long on big monitors */
+  margin: 0 auto;
+}
+
+/* 2. Two‑column layout on screens ≥ 768 px, stacked on smaller */
+.commission-card {
+  display: flex;
+  flex-wrap: wrap;        /* allows wrapping when narrower than min‑widths */
+  gap: 50px;              /* space between the two blocks */
+}
+
+.commission-card .card {
+  flex: 1 1 320px;        /* 1 = grow, 1 = shrink, 320 px = min width */
+  margin-left: 20px;
+}
+
+  .commission-card {
+    background: #fff;
+    padding: 80px 30px 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 95%;
+    margin-top: 30px;
+  }
+
+  .commission-card h2 {
+    margin-bottom: 20px;
+    font-size: 20px;
+    color: #333;
+  }
+  
+  .commission-card ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .commission-card li {
+    margin-bottom: 10px;
+    font-size: 15px;
+  }
+  
+  button {
+    margin-top: 1px;
+    background-color: #007bff;
+    color: white;
+    padding: 10px 14px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  .card {
+      background-color: white;
+      padding: 30px;
+      padding-left: 30px;
+      margin-left: 40px;
+      margin-right: 60px;
+      margin-bottom: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      width: 35%;
+      margin-top: 30px;
+      float: right;
+    }
+    .card h2 {
+      margin-top: 0;
+    }
+    .btn {
+      background-color: #1976D2;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    table, th, td {
+      border: 1px solid #ddd;
+    }
+    th, td {
+      padding: 8px;
+      text-align: left;
+    }
+    .progress {
+      background-color: #ddd;
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 10px 0;
+    }
+    .progress-bar {
+      background-color: #4CAF50;
+      height: 20px;
+      width: 80%; /* Example: 60/75 = 80% */
+      text-align: center;
+      color: white;
+    }
+
+  .summary {
+      margin-top: 400px;
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      width: 100%;
+      
+    }
+  button:hover {
+    background-color: #0056b3;
+  }
+
+</style>
+</head>
+<body>
+  <main class="commision-main">
+  <div class="module-banner">
+    <h1>Monthly Commission</h1>
+  </div>
+  <section class="summary-table">
+  <div class="commission-card" id="commissionCard">
+    <!-- <center><h1>Monthly Commission<span id="month"></span></h1></center> -->
+    <ul>
+      <li><strong>Total Commission: </strong>1500 Rs <span id="totalCommission"></span></li>
+      <li><strong>Number of Sales: </strong>60 <span id="sales"></span></li>
+      <li><strong>Commission Rate: </strong>10% <span id="rate"></span></li>
+      <li><strong>Bonus: </strong>100 Rs <span id="bonus"></span></li>
+      <li><strong>Status: </strong>Paid <span id="status"></span></li>
+      <li><strong>Payment Date: </strong>April 15, 2025 <span id="paymentDate"></span></li>
+      <li><p><strong>Next Goal:</strong> 75 Sales for 15% rate</p></li>
+    </ul>
+    <div class="card">
+      <h2>Sales Breakdown</h2>
+      <table>
+        <tr><th>Product</th><th>Units Sold</th><th>Revenue</th><th>Commission</th></tr>
+        <tr><td>Product A</td><td>20</td><td>₹20,000</td><td>₹400</td></tr>
+        <tr><td>Product B</td><td>15</td><td>₹15,000</td><td>₹300</td></tr>
+        <tr><td>Product C</td><td>25</td><td>₹25,000</td><td>₹500</td></tr>
+      </table>
+    </div>
+  </section>
+    <div class="card">
+      <h2>Milestone Tracker</h2>
+      <p>Progress to 75 sales:</p>
+      <div class="progress">
+        <div class="progress-bar" style="width: 80%;">60 / 75</div>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h2>Notifications</h2>
+      <ul>
+        <li>New incentive plan launching next month!</li>
+        <li>You earned ₹200 from referrals this week!</li>
+      </ul>
+    </div>
+    
+    <div class="card">
+      <h2>Quick Actions</h2>
+      <button class="btn">View Past Payments</button>
+      <button class="btn">Update Profile</button>
+      <button class="btn">Request Support</button>
+    </div>
+    
+    
+    <div class="summary">
+      <h4>Performance Summary:</h4>
+      <p>You closed 60 sales this month, showing a steady performance with a 10% commission rate. Keep pushing to reach your next milestone of 75 sales to unlock a 15% commission rate!</p>
+    </div>
+
+    <center><button onclick="downloadStatement()">Download Statement</button></center>
+  </div>
+  </main>
+
+  <script src="script.js">
+  const data = {
+  month: "March 2025",
+  totalCommission: "$1,250.00",
+  numberOfSales: 45,
+  commissionRate: "10%",
+  bonus: "$100.00",
+  status: "Paid",
+  paymentDate: "April 5, 2025"
+ };
+
+document.getElementById("month").textContent = data.month;
+document.getElementById("totalCommission").textContent = data.totalCommission;
+document.getElementById("sales").textContent = data.numberOfSales;
+document.getElementById("rate").textContent = data.commissionRate;
+document.getElementById("bonus").textContent = data.bonus;
+document.getElementById("status").textContent = data.status;
+document.getElementById("paymentDate").textContent = data.paymentDate;
+
+function downloadStatement() {
+  alert("Download functionality not implemented yet.");
+}
+</script>
+</body>
+</html>
