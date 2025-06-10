@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Monthly Module Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    .hidden {
+      display: none;
+    }
+    .hidden {
+      background: #fff;
+      padding: 25px 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      max-width: 400px;
+      margin: auto;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    form {
+      display: block;
+      /* grid-template-columns: 1fr 2fr; */
+      width: 500px;
+      height: 450px;
+      gap: 10px 20px;
+      margin-bottom: 20px;
+      margin-top: 20px;
+      box-shadow:  0 0 10px rgba(0,0,0,0.1);
+      margin-left: 400px;
+      grid-template-columns: 1fr 2fr;
+    }
+
+    label {
+      font-weight: 500;
+      margin-top: 10px;
+      margin-left: 40px;
+    }
+
+    input, select {
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      width: 60%;
+    }
+
+    .buttons {
+      grid-column: span 2;
+      text-align: right;
+    }
+
+    button {
+      padding: 8px 15px;
+      border: none;
+      border-radius: 5px;
+      margin-left: 10px;
+      cursor: pointer;
+    }
+
+    .save{
+      background: #28a745;
+      color: #fff;
+    }
+
+    button {
+      background: #dc3545;
+      color: #fff;
+    }
+    .badge-success {
+      color: white;
+      background-color: green;
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+    .badge-danger {
+      color: white;
+      background-color: red;
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+    .btn {
+      padding: 6px 12px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .btn-add {
+      background-color: #28a745;
+      color: white;
+      text-align: center;
+      border-top: 5px;
+    }
+    .btn-manage {
+      background-color: #007bff;
+      color: white;
+    }
+    .btn-renew {
+      background-color: orange;
+      color: white;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    table, th {
+      /* border: 1px solid #ccc; */
+      padding: 8px;
+      text-align: center;
+    }
+    th{
+      background-color: blue;
+      color: white;
+    }
+    td{
+      border: none;
+      padding: 8px;
+      text-align: center;
+      background-color: aliceblue;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Add Subscriber Button -->
+<center><button class="btn btn-add" id="addSubscriberBtn">+Add Subscriber</button></center>
+
+<!-- Add Subscriber Form -->
+<div id="subscriberForm" class="hidden" >
+  <form id="form">
+    <br>
+    <center><h2>Add New Subscriber Details</h2></center>
+    <label>Name: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="name" required /></label><br /><br />
+    <label>Type:
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<select id="type" required>
+        <option value="">Select</option>
+        <option value="Student">Student</option>
+        <option value="Teacher">Teacher</option>
+        <option value="Admin">Admin</option>
+      </select>
+    </label><br /><br />
+    <label>Start Date: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="date" id="startDate" required /></label><br /><br />
+    <label>Commission: &nbsp;&nbsp;<input type="number" id="commission" required min="0" /></label><br /><br />
+    <label>Status:
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<select id="status" required>
+        <option value="">Select</option>
+        <option value="Active">Active</option>
+        <option value="Expired">Expired</option>
+      </select>
+    </label><br /><br />
+    <label>Renewal Date: <input type="date" id="renewalDate" required /></label><br /><br />
+    <center><button class="save" type="submit">Save</button>
+    <button type="button" onclick="hideForm()">Cancel</button></center>
+  </form>
+</div>
+
+<!-- Subscriber Table -->
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Start Date</th>
+      <th>Commission</th>
+      <th>Status</th>
+      <th>Renewal Date</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody id="subscriberTableBody">
+    <!-- Existing or added subscribers will go here -->
+  </tbody>
+</table>
+
+<script>
+  // Show form
+  document.getElementById('addSubscriberBtn').addEventListener('click', () => {
+    document.getElementById('subscriberForm').classList.remove('hidden');
+  });
+
+  // Hide form and reset
+  function hideForm() {
+    document.getElementById('form').reset();
+    document.getElementById('subscriberForm').classList.add('hidden');
+  }
+
+  // Handle form submit
+  document.getElementById('form').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const name = document.getElementById('name').value;
+    const type = document.getElementById('type').value;
+    const startDate = document.getElementById('startDate').value;
+    const commission = document.getElementById('commission').value;
+    const status = document.getElementById('status').value;
+    const renewalDate = document.getElementById('renewalDate').value;
+
+    const statusClass = status === 'Active' ? 'badge-success' : 'badge-danger';
+    const actionBtn = status === 'Expired'
+      ? '<button class="btn btn-renew">Renew</button>'
+      : '<button class="btn btn-manage">Manage</button>';
+
+    const tableBody = document.getElementById('subscriberTableBody');
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${name}</td>
+      <td>${type}</td>
+      <td>${startDate}</td>
+      <td>${commission}</td>
+      <td><span class="${statusClass}">${status}</span></td>
+      <td>${renewalDate || '-'}</td>
+      <td>${actionBtn}</td>
+    `;
+    tableBody.appendChild(row);
+
+    hideForm();
+  });
+</script>
+
+</body>
+</html>
