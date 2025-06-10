@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Subscription Expired</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to right, #74ebd5, #acb6e5);
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .module-banner {
+  background: linear-gradient(to right, #3b82f6, #6366f1); /* Blue gradient */
+  color: white;
+  text-align: center;
+  padding: 20px 0;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.module-banner h1 {
+  margin: 0;
+  font-size: 1.8rem;
+}
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      text-align: center;
+      width: 400px;
+      margin-top: 100px;
+    }
+    .container h1 {
+      color: #ff4d4d;
+      margin-bottom: 10px;
+    }
+    .icon {
+      font-size: 50px;
+      color: #ff4d4d;
+    }
+    .details {
+      margin: 20px 0;
+    }
+    .progress-bar {
+      width: 100%;
+      background-color: #ddd;
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 20px 0;
+    }
+    .progress {
+      height: 20px;
+      width: 100%;
+      background-color: #ff4d4d;
+      animation: fillProgress 2s forwards;
+    }
+    @keyframes fillProgress {
+      from { width: 100%; }
+      to { width: 0%; }
+    }
+    button {
+      background-color: #007bff;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .faq-links {
+      margin-top: 20px;
+      font-size: 14px;
+    }
+    .faq-links a {
+      color: #007bff;
+      text-decoration: none;
+      margin: 0 5px;
+    }
+    .features {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #555;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+    <div class="module-banner">
+        <h1>Subscription Expiry</h1>
+      </div>
+<div class="container">
+  <div class="icon">⚠</div>
+  <h1>Subscription Expired!</h1>
+  <div class="details">
+    <p><strong>Expired On:</strong> 25-Apr-2025</p>
+    <p><strong>Plan:</strong> Premium</p>
+    <p><strong>Features:</strong> Unlimited Market Access, Real Time Data, Priority Support</p>
+  </div>
+
+  <div class="progress-bar">
+    <div class="progress"></div>
+  </div>
+
+  <button onclick="renewSubscription()">Renew Now</button>
+
+  <div class="features">
+    <h4>Why renew?</h4>
+    <ul>
+      <li>Continue unlimited market access</li>
+      <li>Priority trading support</li>
+      <li>Real-time stock and crypto data</li>
+    </ul>
+  </div>
+
+  <div class="faq-links">
+    <a href="#">Why renew?</a> |
+    <a href="#">Payment help</a> |
+    <a href="#">Upgrade plan</a>
+  </div>
+</div>
+
+<script>
+  function renewSubscription() {
+    alert('Redirecting to payment page...');
+    // Redirect logic here
+  }
+</script>
+
+</body>
+</html>
