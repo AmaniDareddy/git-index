@@ -1,0 +1,277 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=search"/>
+  <title>Daily / Monthly Commission</title>
+ 
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
+    }body {
+  margin: 0;
+  padding: 0;
+  background: white;
+}
+
+/* ------- Banner ------- */
+.banner {
+  background: #0d6efd;
+  color: white;
+  /* padding: 1rem 2rem; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.banner h1 {
+  text-align: center;
+}
+
+/* ------- Search (filter) ------- */
+.filter-wrapper {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  float: right;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  margin-right: 80px;
+}
+.search {
+  width: 400px;              /* pick whatever width you need */
+  border-radius: 10px;
+}
+
+.filter-wrapper input[type="text"],
+.filter-wrapper input[type="date"] {
+  padding: 0.4rem 0.6rem;
+  border: 2px solid #ccc;
+  border-radius: 15px;
+  width: 400px;  
+}
+.filter-wrapper input[type="date"] {
+  padding: 0.4rem 0.6rem;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  width: 200px; 
+}
+.filter-wrapper button {
+  padding: 0.45rem 0.9rem;
+  border: none;
+  border-radius: 4px;
+  background: #198754;
+  color: #fff;
+  cursor: pointer;
+  transition: opacity 0.25s;
+}
+
+.filter-wrapper button:hover {
+  opacity: 0.8;
+}
+
+/* ------- Table ------- */
+.table-wrapper {
+  margin: 2rem auto;
+  width: 90%;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  text-align: center;
+}
+
+thead {
+  background: #0d6efd;
+  color: #fff;
+}
+
+th, td {
+  padding: 0.75rem 1rem;
+  text-align: center;
+}
+tbody{
+  background-color: lightgrey;
+}
+td {
+    background-color: lightgrey;
+    color: black;
+}
+/* tbody tr:nth-child(even) {
+  background: #f1f1f1;
+} */
+
+/* ------- Chart container ------- */
+.chart-container {
+  width: 60%;
+  margin: 0 auto 3rem;
+  background: #fff;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+  </style>
+</head>
+<body>
+  <!-- Banner / Header -->
+  <header class="banner">
+    <center><h1>Daily Commission</h1></center>
+  </header>  <!-- Commission Table -->  
+  <!-- Search and filters -->
+  <div class="filter-wrapper">
+    <input type="date" id="fromDate" />
+    <input type="date" id="toDate" />
+    <div class="search">
+    <input type="text" id="searchText" placeholder="Search… (e.g. 18-04-2025)"/>
+    <!-- <span class="material-symbols-outlined">search</span> -->
+    <!-- <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span> -->
+    </div>
+    <button id="filterBtn">Filter</button>
+    <button id="resetBtn" style="background:#dc3545">Reset</button>
+  </div>
+  <section class="table-wrapper">
+    <table id="commissionTable">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Commission ($)</th>
+          <th>Employee Name</th>
+          <th>Employee ID</th>
+          <th>Department</th>
+          <!-- <th>Total Sales ($)</th>
+          <th>Commission Rate (%)</th>
+          <th>Remarks</th> -->
+        </tr>
+      </thead>
+      <tbody>
+        <!-- <tr>
+          <td>John Doe</td>
+          <td>EMP123</td>
+          <td>Sales</td>
+          <td>450.00</td>
+          <td>10%</td>
+          <td>-</td>
+        </tr>
+        <tr>
+          <td>Jane Smith</td>
+          <td>EMP456</td>
+          <td>Marketing</td>
+          <td>720.00</td>
+          <td>10%</td>
+          <td>Bonus</td>
+        </tr> -->
+        <!-- Rows added via JS -->
+      </tbody>
+    </table>
+  </section>  <!-- Monthly Commission Chart --> 
+   <section class="chart-container">
+     <canvas id="monthlyChart"></canvas>
+   </section> 
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> 
+  <script>
+    // -------- Sample Data --------
+    const commissionData = [
+      { date: "15-04-2025", amount: 45, name: "John Doe", id:"EMP123", department: "Sales"},
+      { date: "16-04-2025", amount: 72, name: "Jane Smith", id:"EMP456", department: "Marketing"},
+      { date: "17-04-2025", amount: 55, name: "Karuna", id:"EMP678", department: "Production"},
+      { date: "18-04-2025", amount: 65, name: "Keerthi", id:"EMP910", department: "Sales"},
+      { date: "19-04-2025", amount: 25, name: "Smitha", id:"EMP124", department: "Sales"},
+      { date: "20-04-2025", amount: 30, name: "Sruthi", id:"EMP135", department: "Sales"},
+      { date: "21-04-2025", amount: 100, name: "Karunya", id:"EMP166", department: "Sales"},
+    ];
+
+    // -------- Helpers --------
+    const tbody = document.querySelector("#commissionTable tbody");
+
+    function renderTable(data) {
+      tbody.innerHTML = "";
+      data.forEach(({ date, amount, name, id, department }) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `<td>${date}</td><td>${amount.toFixed(2)}</td><td>${name}</td><td>${id}</td><td>${department}</td>`;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function validateDateRange(from, to) {
+      if (from && to && new Date(from) > new Date(to)) {
+        alert("'From' date cannot be after 'To' date.");
+        return false;
+      }
+      return true;
+    }
+
+    // -------- Filtering --------
+    document.getElementById("filterBtn").addEventListener("click", () => {
+      const from = document.getElementById("fromDate").value;
+      const to = document.getElementById("toDate").value;
+      const text = document.getElementById("searchText").value.trim().toLowerCase();
+
+      if (!validateDateRange(from, to)) return;
+
+      let filtered = [...commissionData];
+      if (from) filtered = filtered.filter(r => r.date >= from);
+      if (to) filtered = filtered.filter(r => r.date <= to);
+      if (text) filtered = filtered.filter(r => r.date.includes(text));
+
+      renderTable(filtered);
+      updateChart(filtered);
+    });
+
+    document.getElementById("resetBtn").addEventListener("click", () => {
+      document.getElementById("fromDate").value = "";
+      document.getElementById("toDate").value = "";
+      document.getElementById("searchText").value = "";
+      renderTable(commissionData);
+      updateChart(commissionData);
+    });
+
+    // -------- Chart --------
+    let chart;
+    function updateChart(data) {
+      // Aggregate by month (YYYY-MM)
+      const monthly = {};
+      data.forEach(({ date, amount }) => {
+        const [y, m] = date.split("-");
+        const key = `${y}-${m}`;
+        monthly[key] = (monthly[key] || 0) + amount;
+      });
+      const labels = Object.keys(monthly).sort();
+      const values = labels.map(k => monthly[k]);
+
+      if (chart) chart.destroy();
+      const ctx = document.getElementById("monthlyChart").getContext("2d");
+      chart = new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels,
+          datasets: [
+            {
+              label: "Commission ($)",
+              data: values,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+        },
+      });
+    }
+
+    // Initial render
+    renderTable(commissionData);
+    updateChart(commissionData);
+  </script>
+  </body>
+</html>
