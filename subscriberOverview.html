@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Subscriber Overview Module</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: white;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+    background: #35155D;
+    color: white;
+    padding: 15px;
+    text-align: center;
+   }
+    .dashboard {
+     max-width: 100%;
+     margin: auto;
+     background: white;
+     border-radius: 12px;
+     padding: 20px;
+     /* box-shadow: 0 4px 12px rgba(0,0,0,0.1); */
+     align-items: center;
+     justify-content: center;
+    }
+    .card p {
+     font-size: 18px;
+     margin: 12px 0;
+    }
+    table {
+     width: 100%;
+     border-collapse: collapse;
+     margin-top: 20px;
+    }
+
+    th, td {
+     text-align: center;
+     padding: 10px;
+     /* border-bottom: 1px solid #ddd; */
+     /* border: 1px solid burlywood; */
+    }
+    td{
+      background-color: beige;
+    }
+    th {
+      background-color: #35155D;
+      color: white;
+    }
+</style>
+</head>
+<body>
+    <header>
+      <h1>Subscriber Overview</h1>
+    </header>
+  <div class="dashboard">
+    <div class="card">
+      <p>Total Subscribers: <span id="total-subscribers">5</span></p>
+      <p>New in Last 30 Days: <span id="new-subscribers">2</span></p>
+    </div>
+    <center><h2>Subscriber Details</h2></center>
+  <table id="subscriber-table">
+    <thead>
+      <tr>
+        <th>Email</th>
+        <th>Subscribed At</th>
+        <th>Plan</th>
+        <th>Location</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Data will be inserted here -->
+      <tr>
+        <td>a@example.com</td>
+        <td>2024-12-15</td>
+        <td>Basic</td>
+        <td>New York</td>
+      </tr> 
+      <tr>
+        <td>b@example.com</td>
+        <td>2025-03-05</td>
+        <td>pro</td>
+        <td>Los Angeles</td>
+      </tr>
+      <tr>
+        <td>c@example.com</td>
+        <td>2025-04-01</td>
+        <td>pro</td>
+        <td>Chicago</td>
+      </tr>
+      <tr>
+        <td>d@example.com</td>
+        <td>2025-04-08</td>
+        <td>Enterprise</td>
+        <td>USA</td>
+      </tr>
+      <tr>
+        <td>e@example.com</td>
+        <td>2025-01-10</td>
+        <td>Basic</td>
+        <td>Paris</td>
+      </tr>
+    </tbody>
+  </table>
+
+    <script>
+        // Simulated subscriber data
+        const subscribers = [
+           { email: 'a@example.com', subscribedAt: '2024-12-15', plan: 'Basic', Location: 'New York'},
+           { email: 'b@example.com', subscribedAt: '2025-03-05', plan: 'pro', Location: 'Los Angeles'},
+           { email: 'c@example.com', subscribedAt: '2025-04-01', plan: 'pro', Location: 'Chicago'},
+           { email: 'd@example.com', subscribedAt: '2025-04-08', plan: 'Enterprise', Location: 'USA'},
+           { email: 'e@example.com', subscribedAt: '2025-01-10', plan: 'Basic', Location: 'Paris'}
+       ];
+  
+        function calculateOverview(data) {
+           const total = data.length;
+           const now = new Date();
+           const last30Days = new Date();
+           last30Days.setDate(now.getDate() - 30);
+  
+           const recent = data.filter(sub => new Date(sub.subscribedAt) >= last30Days).length;
+  
+           return { total, recent };
+          }
+          function renderTable(data) {
+            const tbody = document.querySelector("#subscriber-table tbody");
+            data.forEach(sub => {
+            const row = document.createElement("tr");
+            row.innerHTML = <td>${sub.email}</td>,
+                            <td>${sub.subscribedAt}</td>,
+                            <td>${sub.plan}</td>,
+                            <td>${sub.Location}</td>;
+            tbody.appendChild(row);
+           });
+         }
+
+
+  
+          document.addEventListener('DOMContentLoaded', () => {
+            const { total, recent } = calculateOverview(subscribers);
+  
+            document.getElementById('total-subscribers').textContent = total;
+            document.getElementById('new-subscribers').textContent = recent;
+
+            renderTable(subscribers);
+
+          });
+    </script>
+  </div>
+</body>
+</html>
